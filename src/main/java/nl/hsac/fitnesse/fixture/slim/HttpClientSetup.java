@@ -1,6 +1,8 @@
 package nl.hsac.fitnesse.fixture.slim;
 
 import nl.hsac.fitnesse.fixture.util.HttpClientFactory;
+import org.apache.http.auth.AuthScope;
+import org.apache.http.auth.NTCredentials;
 import org.apache.http.client.HttpClient;
 
 import java.io.File;
@@ -145,6 +147,14 @@ public class HttpClientSetup extends SlimFixture {
      */
     public void useWindowsAuthentication(boolean useWinAuth){
         clientFactory.useWindowsAuthentication(useWinAuth);
+    }
+
+    public void configureNtUserWithPassword(String username, String password) {
+        configureNtUserWithDomainAndPassword(username, null, password);
+    }
+
+    public void configureNtUserWithDomainAndPassword(String username, String domain, String password) {
+        clientFactory.setCredentials(AuthScope.ANY, new NTCredentials(username, password, null, domain));
     }
 
     /**
