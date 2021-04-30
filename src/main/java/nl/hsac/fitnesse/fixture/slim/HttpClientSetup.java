@@ -4,6 +4,7 @@ import nl.hsac.fitnesse.fixture.util.HttpClientFactory;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.NTCredentials;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.config.AuthSchemes;
 
 import java.io.File;
 
@@ -154,7 +155,7 @@ public class HttpClientSetup extends SlimFixture {
     }
 
     public void configureNtUserWithDomainAndPassword(String username, String domain, String password) {
-        clientFactory.setCredentials(AuthScope.ANY, new NTCredentials(username, password, null, domain));
+        clientFactory.setCredentials(new AuthScope(null, -1, null, AuthSchemes.SPNEGO), new NTCredentials(username, password, null, domain));
     }
 
     /**
