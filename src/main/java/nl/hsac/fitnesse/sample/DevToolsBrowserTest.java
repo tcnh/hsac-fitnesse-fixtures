@@ -4,29 +4,31 @@ import fitnesse.util.Base64;
 import nl.hsac.fitnesse.fixture.slim.SlimFixtureException;
 import nl.hsac.fitnesse.fixture.slim.StopTestException;
 import nl.hsac.fitnesse.fixture.slim.web.BrowserTest;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.devtools.DevTools;
 import org.openqa.selenium.devtools.HasDevTools;
-import org.openqa.selenium.devtools.v97.emulation.Emulation;
-import org.openqa.selenium.devtools.v97.fetch.Fetch;
-import org.openqa.selenium.devtools.v97.fetch.model.RequestPattern;
-import org.openqa.selenium.devtools.v97.fetch.model.RequestStage;
-import org.openqa.selenium.devtools.v97.log.Log;
-import org.openqa.selenium.devtools.v97.network.Network;
-import org.openqa.selenium.devtools.v97.network.model.Cookie;
-import org.openqa.selenium.devtools.v97.network.model.CookiePriority;
-import org.openqa.selenium.devtools.v97.network.model.CookieSameSite;
-import org.openqa.selenium.devtools.v97.network.model.Headers;
-import org.openqa.selenium.devtools.v97.network.model.RequestId;
-import org.openqa.selenium.devtools.v97.network.model.RequestWillBeSent;
-import org.openqa.selenium.devtools.v97.network.model.ResourceType;
-import org.openqa.selenium.devtools.v97.network.model.ResponseReceived;
-import org.openqa.selenium.devtools.v97.network.model.TimeSinceEpoch;
-import org.openqa.selenium.devtools.v97.page.Page;
-import org.openqa.selenium.devtools.v97.performance.Performance;
-import org.openqa.selenium.devtools.v97.performance.model.Metric;
-import org.openqa.selenium.devtools.v97.runtime.Runtime;
-import org.openqa.selenium.devtools.v97.security.Security;
+import org.openqa.selenium.devtools.v109.emulation.Emulation;
+import org.openqa.selenium.devtools.v109.fetch.Fetch;
+import org.openqa.selenium.devtools.v109.fetch.model.RequestPattern;
+import org.openqa.selenium.devtools.v109.fetch.model.RequestStage;
+import org.openqa.selenium.devtools.v109.log.Log;
+import org.openqa.selenium.devtools.v109.network.Network;
+import org.openqa.selenium.devtools.v109.network.model.Cookie;
+import org.openqa.selenium.devtools.v109.network.model.CookiePriority;
+import org.openqa.selenium.devtools.v109.network.model.CookieSameSite;
+import org.openqa.selenium.devtools.v109.network.model.Headers;
+import org.openqa.selenium.devtools.v109.network.model.RequestId;
+import org.openqa.selenium.devtools.v109.network.model.RequestWillBeSent;
+import org.openqa.selenium.devtools.v109.network.model.ResourceType;
+import org.openqa.selenium.devtools.v109.network.model.ResponseReceived;
+import org.openqa.selenium.devtools.v109.network.model.TimeSinceEpoch;
+import org.openqa.selenium.devtools.v109.page.Page;
+import org.openqa.selenium.devtools.v109.performance.Performance;
+import org.openqa.selenium.devtools.v109.performance.model.Metric;
+import org.openqa.selenium.devtools.v109.runtime.Runtime;
+import org.openqa.selenium.devtools.v109.security.Security;
+import org.openqa.selenium.remote.Augmenter;
 
 import java.math.BigInteger;
 import java.sql.Timestamp;
@@ -42,6 +44,7 @@ import static java.util.Optional.empty;
 
 /**
  * Examples
+ *
  * @param <T>
  */
 public class DevToolsBrowserTest<T extends WebElement> extends BrowserTest<T> {
@@ -53,7 +56,7 @@ public class DevToolsBrowserTest<T extends WebElement> extends BrowserTest<T> {
 
     /**
      * Experimental class leveraging selenium 4's devTools api's. Use with devTools enabled browser
-     * Current api: v97
+     * Current api: v106
      */
 
     public DevToolsBrowserTest() {
@@ -75,10 +78,11 @@ public class DevToolsBrowserTest<T extends WebElement> extends BrowserTest<T> {
     }
 
     private void ensureDevToolsEnabledDriver() {
-        if (!(getSeleniumHelper().driver() instanceof HasDevTools)) {
+        WebDriver driver = new Augmenter().augment(getSeleniumHelper().driver());
+        if (!(driver instanceof HasDevTools)) {
             throw new StopTestException(false, "DevTools enabled Browser Test can only be used with a chromium based browser (Chrome/Edge)");
         }
-        devTools = ((HasDevTools) getSeleniumHelper().driver()).getDevTools();
+        devTools = ((HasDevTools) driver).getDevTools();
         devTools.createSessionIfThereIsNotOne();
         devTools.send(Network.enable(Optional.of(100000), Optional.of(100000), Optional.of(100000)));
     }
@@ -130,7 +134,8 @@ public class DevToolsBrowserTest<T extends WebElement> extends BrowserTest<T> {
      */
     public void setCookieWithValueForDomain(String name, String value, String domain) {
         devTools.send(Network.setCookie(name, value, empty(), Optional.of(domain),
-                empty(), empty(), empty(), empty(), empty(), empty(), empty(), empty(), empty()));
+                empty(), empty(), empty(), empty(), empty(), empty(),
+                empty(), empty(), empty(), empty()));
     }
 
     /**
@@ -151,6 +156,7 @@ public class DevToolsBrowserTest<T extends WebElement> extends BrowserTest<T> {
                 Optional.of(CookieSameSite.fromString(String.valueOf(cookieData.get("sameSite")))),
                 Optional.of(new TimeSinceEpoch(new BigInteger(String.valueOf(cookieData.get("expires"))))),
                 Optional.of(CookiePriority.fromString(String.valueOf(cookieData.get("priority")))),
+                empty(),
                 empty(),
                 empty(),
                 empty()

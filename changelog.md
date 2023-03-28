@@ -21,6 +21,93 @@ An example of Maven based project using this baseline can be found at: https://g
 When upgrading from an older version, ensure all Selenium webdrivers are stopped and delete the 'wiki/plugins' and 'wiki/webdrivers' folders to remove old versions of the packaged plugins/webdrivers. When using the sample project: follow the instructions at https://github.com/fhoeben/sample-fitnesse-project#upgrading.
 
 New in ${VERSION}
+- ChromeDriver 111.0.5563.64
+- Edgedriver 111.0.1661.41
+
+New in 5.2.32
+- ChromeDriver 110.0.5481.77
+- Edgedriver 110.0.1587.41
+- Update snakeyaml to 2.0, #475
+
+New in 5.2.31
+- Selenium 4.8.1
+- Fix Chrome error "invalid argument: uniqueContextId not found" #471
+
+New in 5.2.30
+- Selenium 4.8.0
+- Wrap devtools driver to Augmenter for RemoteWebDriver capability (#468)
+
+New in 5.2.29
+- Minor dependency updates
+
+New in 5.2.28
+- Praegus toolchain plugin 2.0.16
+
+New in 5.2.27
+- Fix: Chromedriver for Windows download
+
+New in 5.2.26
+- EdgeDriver 109.0.1518.55
+- ChromeDriver 109.0.5414.74
+
+New in 5.2.25
+- Updated docker images to use base images that are also available on `arm64` platform
+
+New in 5.2.24
+- FitNesse 20221219
+- Selenium 4.7.2
+- hsac-fitnesse-plugin 1.32.10
+- Other dependency updates
+
+New in 5.2.23
+  Fix acceptance test: HsacAcceptanceTests.SlimTests.BrowserTest.ClickByLabelOrButton
+- Fix GitHub 'other' workflow to actually fail on test errors
+- Replace Selenium deprecated `UNEXPECTED_ALERT_BEHAVIOUR` by `UNHANDLED_PROMPT_BEHAVIOUR`
+
+New in 5.2.22
+- Updated GitHub release process
+
+New in 5.2.21
+- Selenium 4.7.1
+
+New in 5.2.20
+- FitNesse 20221102
+- EdgeDriver 108.0.1462.42
+- ChromeDriver 108.0.5359.71
+
+New in 5.2.19
+- EdgeDriver 107.0.1418.26
+- ChromeDriver 107.0.5304.62
+- GeckoDriver 0.32.0
+
+New in 5.2.18
+- ChromeDriver 106.0.5249.61
+- EdgeDriver 106.0.1370.34
+
+New in 5.2.15
+- Chromedriver 105.0.5195.52
+- EdgeDriver 105.0.1343.25
+
+New in 5.2.13
+- FitNesse 20220815
+
+New in 5.2.12
+- ChromeDriver 104.0.5112.79
+- EdgeDriver 104.0.1293.47
+
+New in 5.2.11
+- ChromeDriver 103.0.5060.53
+- EdgeDriver 103.0.1264.37
+  
+New in 5.2.10
+- EdgeDriver 102.0.1245.30
+- update webdriverextensions-maven-plugin
+
+New in 5.2.9
+- ChromeDriver 102.0.5005.61
+
+New in 5.2.8
+- Fix: Chromedriver proxy configuration [#414](https://github.com/fhoeben/hsac-fitnesse-fixtures/pull/414)
 
 New in 5.2.7
 - Updated dependencies and shell scripts in docker container to remove vulnerabilities.
